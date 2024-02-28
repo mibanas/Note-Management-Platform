@@ -5,6 +5,7 @@ import {
     modelOptions,
 } from '@typegoose/typegoose';
 import { ColorClass } from './Color';
+import mongoose from 'mongoose';
 
 // schema options
 @modelOptions({
@@ -24,5 +25,5 @@ class NoteClass {
 }
 
 // model
-const Note = getModelForClass(NoteClass);
+const Note = mongoose.models.NoteClass || getModelForClass(NoteClass);
 export { Note, NoteClass };
