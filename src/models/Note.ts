@@ -25,4 +25,4 @@ class NoteClass {
 
 // model
 const Note = getModelForClass(NoteClass);
-export { Note };
+export { Note, NoteClass };
