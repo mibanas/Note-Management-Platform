@@ -1,62 +1,68 @@
 'use client';
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
-} from './ui/dropdown-menu';
+import { PaintBucket, Plus } from 'lucide-react';
 import { Button } from './ui/button';
-import { FaPalette } from 'react-icons/fa';
-import { ChevronDownIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { ColorPaletteProps } from '@/types';
 import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from './ui/select';
+    Dialog,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from './ui/dialog';
+import { Input } from './ui/input';
+import { FormEvent, useState } from 'react';
+import { ColorPicker, useColor } from 'react-color-palette';
+import 'react-color-palette/css';
 
-export default function ColorPalette({
-    selectedColor,
-    setSelectedColor,
-}: ColorPaletteProps) {
-    const colors = [
-        { id: '1', hex: '#FBCE60' },
-        { id: '2', hex: '#090909' },
-        { id: '3', hex: '#EF5350' },
-        { id: '4', hex: '#1F1F53' },
-    ];
+export default function ColorPalette() {
+    const [isPaletteOpen, setIsPaletteOpen] = useState(false);
+    const [color, setColor] = useColor('#561ecb');
+
+    const addColor = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        // add new color
+        console.log('🚀 ~ ColorPalette ~ selectedColor:', color);
+    };
+
     return (
-        <Select
-            onValueChange={setSelectedColor}
-            value={selectedColor}
-        >
-            <SelectTrigger className='w-[180px]'>
-                <SelectValue placeholder='Color' />
-            </SelectTrigger>
-            <SelectContent>
-                {colors.length > 0 ? (
-                    colors.map((color) => (
-                        <SelectItem
-                            value={color.id}
-                            key={color.id}
+        <Dialog open={isPaletteOpen}>
+            <DialogTrigger asChild>
+                <Button
+                    className='p-2 w-full'
+                    onClick={() => setIsPaletteOpen(true)}
+                >
+                    <Plus size={20} />
+                    <PaintBucket size={20} />
+                </Button>
+            </DialogTrigger>
+            <DialogContent>
+                <DialogHeader>
+                    <DialogTitle>Add new color.</DialogTitle>
+                </DialogHeader>
+                <form onSubmit={addColor}>
+                    <div className='my-6'>
+                        <ColorPicker
+                            color={color}
+                            onChange={setColor}
+                        />
+                    </div>
+                    <DialogFooter>
+                        <Button
+                            className='p-2 w-full'
+                            type='submit'
                         >
-                            <div
-                                className={cn(
-                                    'inline-flex h-5 w-[120px] items-center justify-center rounded-md   '
-                                )}
-                                style={{ backgroundColor: color.hex }}
-                            ></div>
-                        </SelectItem>
-                    ))
-                ) : (
-                    <SelectItem value='null'>its gray in here</SelectItem>
-                )}
-            </SelectContent>
-        </Select>
+                            <Plus size={20} />
+                        </Button>
+                        <Button
+                            className='p-2 w-full'
+                            type='button'
+                            onClick={() => setIsPaletteOpen(false)}
+                        >
+                            close
+                        </Button>
+                    </DialogFooter>
+                </form>
+            </DialogContent>
+        </Dialog>
     );
 }
