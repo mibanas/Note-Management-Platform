@@ -1,6 +1,12 @@
 import EditForm from '@/components/EditForm';
 import { notFound } from 'next/navigation';
 
+export async function generateMetadata({ params }: { params: { id: string } }) {
+    return {
+        title: `Note ${params.id} | Notes Management Platform`,
+    };
+}
+
 export default function editPage({
     params: { id },
 }: {
