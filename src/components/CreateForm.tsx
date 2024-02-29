@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { NoteInputSchemaType, noteInputSchema } from '@/schemas/note.schema';
 import { Textarea } from './ui/textarea';
-import ColorPalette from './ColorPalette';
+import ColorPalette from './ColorSelect';
 
 export default function CreateForm() {
     const formHandler = useForm<NoteInputSchemaType>({

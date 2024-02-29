@@ -18,7 +18,7 @@ export type CreateFormProps = {
     setIsDialogOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export type ColorPaletteProps = {
+export type ColorSelectProps = {
     selectedColor: string;
     setSelectedColor: Dispatch<SetStateAction<string | undefined>>;
 };
