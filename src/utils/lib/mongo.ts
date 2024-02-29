@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import _mongoose, { connect } from 'mongoose';
 
 if (!process.env.MONGODB_URI) {
@@ -9,6 +10,7 @@ let cashedConnection: undefined | typeof _mongoose;
 
 export async function connectDb() {
     if (cashedConnection) {
+        console.log('🚀 ~ Using cashed Connection');
         return cashedConnection;
     }
     try {
@@ -22,4 +24,5 @@ export async function connectDb() {
     }
     return cashedConnection;
 }
+
 export default connectDb;

@@ -3,6 +3,7 @@ import {
     prop,
     getModelForClass,
     modelOptions,
+    DocumentType,
 } from '@typegoose/typegoose';
 import { ColorClass } from './Color';
 import mongoose from 'mongoose';
@@ -21,7 +22,10 @@ class NoteClass {
     public content: string;
 
     @prop({ ref: () => ColorClass })
-    public color?: Ref<ColorClass>;
+    public color?: Ref<ColorClass> | DocumentType<typeof ColorClass>;
+
+    @prop()
+    public isArchived: boolean;
 }
 
 // model
