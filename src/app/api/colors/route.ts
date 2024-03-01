@@ -13,6 +13,8 @@ export async function GET(req: NextRequest) {
     }
 }
 
+
+
 // Create new Color
 export async function POST(req: NextRequest) {
     await connectDb();

@@ -5,6 +5,10 @@ import { FilePenLine } from 'lucide-react';
 import { contrastRatio } from '@/utils/lib/contrastRatio';
 import Alert from './Alert';
 import Link from 'next/link';
+import { Button } from './ui/button';
+import { cn } from '@/lib/utils';
+import { useDispatch } from 'react-redux';
+import { getNotes, restoreNote } from '@/app/Redux/slices/notesSlice';
 export default function NoteCard({
     _id,
     content,
@@ -12,34 +16,61 @@ export default function NoteCard({
     color,
     isArchived,
 }: Note) {
-    // open edit modal
-    function openEditModal() {}
+    const dispatch = useDispatch();
 
     return (
         <div>
             <Card
                 style={{
                     backgroundColor: color.hex,
-                    color: contrastRatio(color.hex),
+                    color: color.hex ? contrastRatio(color.hex) : '',
                 }}
-                className='p-2 pb-6 relative'
+                className={cn('p-2 pb-6 relative', isArchived && ' border-2')}
             >
-                <CardFooter className='flex items-center justify-between p-4 pt-6 pb-0'>
+                <CardFooter
+                    className={cn(
+                        'flex items-center justify-between p-4 pt-6 pb-0 '
+                    )}
+                >
                     <p>{createdAt}</p>
 
-                    <Link href={`/note/${_id}`}>
-                        <FilePenLine
-                            size={20}
-                            color={contrastRatio(color.hex)}
-                            className='cursor-pointer transition-all duration-500 hover:rotate-6 hover:scale-125'
-                        />
-                    </Link>
+                    {!isArchived && (
+                        <Link href={`/note/${_id}`}>
+                            <FilePenLine
+                                size={20}
+                                color={
+                                    color.hex ? contrastRatio(color.hex) : ''
+                                }
+                                className='cursor-pointer transition-all duration-500 hover:rotate-6 hover:scale-125'
+                            />
+                        </Link>
+                    )}
                 </CardFooter>
-                <CardContent className='h-56 px-1 py-4 overflow-hidden flex'>
+
+                <CardContent
+                    className={cn(
+                        'h-56 px-1 py-4 overflow-hidden flex',
+                        isArchived && ' opacity-60'
+                    )}
+                >
                     <p className='p-2'>{content}</p>
                 </CardContent>
 
-                <Alert noteID='dsdqsd' />
+                {!isArchived && <Alert noteID={_id} />}
+                {isArchived && (
+                    //TODO
+                    <Button
+                        className='mt-4 w-full '
+                        onClick={() => {
+                            //@ts-ignore
+                            dispatch(restoreNote(_id));
+                            //@ts-ignore
+                            dispatch(getNotes());
+                        }}
+                    >
+                        Restore
+                    </Button>
+                )}
             </Card>
         </div>
     );

@@ -47,7 +47,9 @@ export default function RootLayout({
                         >
                             <Navbar />
                             <div className='h-screen overflow-auto pb-32'>
+                              <Providers>
                                 {children}
+                              </Providers>
                             </div>
                         </ResizablePanel>
                     </ResizablePanelGroup>

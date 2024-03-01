@@ -1,4 +1,4 @@
-import { Note } from '@/models/Note';
+import { NoteModel } from '@/models/Note';
 import connectDb from '@/utils/lib/mongo';
 import { isValidObjectId } from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
@@ -16,7 +16,7 @@ export async function GET(
                 { status: 400 }
             );
         }
-        const note = await Note.findById({ _id: id });
+        const note = await NoteModel.findById({ _id: id });
         if (!note) {
             return NextResponse.json(
                 { message: 'Note not found' },
@@ -45,7 +45,7 @@ export async function PATCH(
                 { status: 400 }
             );
         }
-        const note = await Note.findByIdAndUpdate(
+        const note = await NoteModel.findByIdAndUpdate(
             { _id: id },
             { ...updateBody },
             { new: true }
@@ -75,14 +75,17 @@ export async function DELETE(
                 { status: 400 }
             );
         }
-        const note = await Note.findByIdAndDelete({ _id: id });
+        const note = await NoteModel.findByIdAndUpdate(
+            { _id: id },
+            { isArchived: true }
+        );
         if (!note) {
             return NextResponse.json(
                 { message: 'Note not found' },
                 { status: 404 }
             );
         }
-        return NextResponse.json({ status: 200 });
+        return NextResponse.json({ deletedNote: { id: id }, status: 200 });
     } catch (error) {
         return NextResponse.json({ error: error }, { status: 500 });
     }

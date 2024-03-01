@@ -5,23 +5,40 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { NoteInputSchemaType, noteInputSchema } from '@/schemas/note.schema';
 import { Textarea } from './ui/textarea';
 import ColorPalette from './ColorSelect';
-import { Note } from '@/types';
 import { Button } from './ui/button';
+import { RootState } from '@/app/Redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { notFound, useRouter } from 'next/navigation';
+import { Loader } from 'lucide-react';
+import { updateNote } from '@/app/Redux/slices/notesSlice';
 
-export default function EditForm({ _id, content, createdAt, color }: Note) {
+export default function EditForm({ id }: { id: string }) {
+    const { notes } = useSelector((state: RootState) => state.notes);
+    const dispatch = useDispatch();
+    const router = useRouter();
+    const note = notes.find((note) => {
+        return note._id === id;
+    });
     const formHandler = useForm<NoteInputSchemaType>({
         resolver: zodResolver(noteInputSchema),
         defaultValues: {
-            content,
-            color: color._id.toString(),
+            content: note?.content,
+            color: note?.color._id,
         },
     });
 
     const createNote = (values: NoteInputSchemaType) => {
-        console.log('🚀 ~ createNote ~ values:', values);
-        // update note
+        dispatch(
+            //@ts-ignore
+            updateNote({ id, color: values.color, content: values.content })
+        );
+
+        router.push('/');
     };
-    return (
+
+    return !note ? (
+        notFound()
+    ) : (
         <div>
             <Form {...formHandler}>
                 <form
@@ -62,7 +79,13 @@ export default function EditForm({ _id, content, createdAt, color }: Note) {
                             </FormItem>
                         )}
                     />
-                    <Button type='submit'>update</Button>
+                    <Button type='submit'>
+                        {formHandler.formState.isLoading ? (
+                            <Loader />
+                        ) : (
+                            'update'
+                        )}
+                    </Button>
                 </form>
             </Form>
         </div>

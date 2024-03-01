@@ -12,15 +12,16 @@ import {
     AlertDialogTrigger,
 } from './ui/alert-dialog';
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { deleteNote } from '@/app/Redux/slices/notesSlice';
 
 export default function Alert({ noteID }: { noteID: string }) {
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-
+    const dispatch = useDispatch();
     //delete note
-    function deleteNote() {
-        setTimeout(() => {
-            setIsDialogOpen(false);
-        }, 800);
+    function archiveNote() {
+        //@ts-ignore
+        dispatch(deleteNote(noteID));
     }
     return (
         <AlertDialog open={isDialogOpen}>
@@ -47,7 +48,7 @@ export default function Alert({ noteID }: { noteID: string }) {
                     <AlertDialogCancel onClick={() => setIsDialogOpen(false)}>
                         Cancel
                     </AlertDialogCancel>
-                    <AlertDialogAction onClick={deleteNote}>
+                    <AlertDialogAction onClick={archiveNote}>
                         Continue
                     </AlertDialogAction>
                 </AlertDialogFooter>
