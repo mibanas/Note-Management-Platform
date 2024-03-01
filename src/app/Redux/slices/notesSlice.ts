@@ -50,12 +50,10 @@ const notesSlice = createSlice({
             state.status = false
         });
         builder.addCase(fetchUsers.fulfilled, (state, action) => {
+            console.log("🚀 ~ builder.addCase ~ action:", action.payload)
             state.status = true,
-      
-            state.notes = state.notes.concat(action.payload.notes);
-            // state.notes = action.payload;
-
-            
+            // state.notes = state.notes.concat(action.payload);
+            state.notes = action.payload;
         });
         builder.addCase(fetchUsers.rejected, (state, action) => {
             state.status = false
