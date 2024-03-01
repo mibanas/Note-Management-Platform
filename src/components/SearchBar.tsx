@@ -2,12 +2,15 @@
 import { useRef } from 'react';
 import { Input } from './ui/input';
 import { debounce } from '@/utils/lib/debounce';
+import { useDispatch } from 'react-redux';
+import { filterNotesByContent } from '@/app/Redux/slices/notesSlice';
 
 export default function SearchBar() {
     const ref = useRef<HTMLInputElement | null>(null);
+    const dispatch = useDispatch();
 
     function searchNotes() {
-        console.log('searched value ', ref.current?.value);
+        dispatch(filterNotesByContent(ref.current?.value));
     }
 
     return (
