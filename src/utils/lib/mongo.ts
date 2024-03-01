@@ -19,7 +19,8 @@ export async function connectDb() {
             '🚀 Connection established database :',
             cashedConnection.connection.db.databaseName
         );
-    } catch (error) {
+    } catch (error : any) {
+        console.log("🚀 ~ connectDb ~ error:", error.message)
         console.log('❌ Connection to database failed');
     }
     return cashedConnection;
