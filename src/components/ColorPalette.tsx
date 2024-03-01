@@ -13,15 +13,20 @@ import { Input } from './ui/input';
 import { FormEvent, useState } from 'react';
 import { ColorPicker, useColor } from 'react-color-palette';
 import 'react-color-palette/css';
+import { useDispatch } from 'react-redux';
+import { createColor, getColors } from '@/app/Redux/slices/colorSlice';
 
 export default function ColorPalette() {
     const [isPaletteOpen, setIsPaletteOpen] = useState(false);
     const [color, setColor] = useColor('#561ecb');
+    const dispatch = useDispatch();
 
     const addColor = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        // add new color
-        console.log('🚀 ~ ColorPalette ~ selectedColor:', color);
+
+        //@ts-ignore
+        dispatch(createColor(color.hex));
+        setIsPaletteOpen(false);
     };
 
     return (
@@ -51,7 +56,7 @@ export default function ColorPalette() {
                             className='p-2 w-full'
                             type='submit'
                         >
-                            <Plus size={20} />
+                            add
                         </Button>
                         <Button
                             className='p-2 w-full'
