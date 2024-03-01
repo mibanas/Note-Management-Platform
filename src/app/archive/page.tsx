@@ -1,4 +1,5 @@
 import Logo from '@/components/Logo';
+import NotesGrid from '@/components/NotesGrid';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -6,11 +7,12 @@ export const metadata: Metadata = {
 };
 
 export default async function ArchivePage() {
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
     return (
-        <div className=' h-screen flex items-center justify-center '>
-            ArchivePage
-        </div>
+        <main className='overflow-auto'>
+            <NotesGrid
+                archivedNotes={true}
+                message='Delete a note and come back.'
+            />
+        </main>
     );
 }
