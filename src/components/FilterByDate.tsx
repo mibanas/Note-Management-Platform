@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/popover';
 import { useState } from 'react';
 import { Separator } from './ui/separator';
+import { useDispatch } from 'react-redux';
+import { filterNotesByDate } from '@/app/Redux/slices/notesSlice';
 
 export function FilterByDate({
     className,
@@ -21,15 +23,27 @@ export function FilterByDate({
         from: new Date(),
         to: addDays(new Date(), 2),
     });
-
+    const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
 
     function filterNotes() {
-        // update notes state
+        dispatch(
+            filterNotesByDate({
+                from: date?.from?.getTime(),
+                to: date?.to?.getTime(),
+            })
+        );
         setIsOpen(false);
     }
     function resetFiltering() {
         // reset notes state
+        dispatch(
+            filterNotesByDate({
+                from: undefined,
+                to: undefined,
+            })
+        );
+        setDate({ from: undefined, to: undefined });
         setIsOpen(false);
     }
     return (
