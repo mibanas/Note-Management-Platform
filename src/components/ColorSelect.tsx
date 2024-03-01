@@ -1,15 +1,4 @@
 'use client';
-import { DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuRadioGroup,
-    DropdownMenuRadioItem,
-} from './ui/dropdown-menu';
-import { Button } from './ui/button';
-import { FaPalette } from 'react-icons/fa';
-import { ChevronDownIcon } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { ColorSelectProps } from '@/types';
 import {
@@ -19,17 +8,15 @@ import {
     SelectTrigger,
     SelectValue,
 } from './ui/select';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/app/Redux/store';
 
 export default function ColorSelect({
     selectedColor,
     setSelectedColor,
 }: ColorSelectProps) {
-    const colors = [
-        { id: '1', hex: '#FBCE60' },
-        { id: '2', hex: '#090909' },
-        { id: '3', hex: '#EF5350' },
-        { id: '4', hex: '#1F1F53' },
-    ];
+    const { colors } = useSelector((state: RootState) => state.colors);
+
     return (
         <Select
             onValueChange={setSelectedColor}
@@ -42,8 +29,8 @@ export default function ColorSelect({
                 {colors.length > 0 ? (
                     colors.map((color) => (
                         <SelectItem
-                            value={color.id}
-                            key={color.id}
+                            value={color._id}
+                            key={color._id}
                         >
                             <div
                                 className={cn(
