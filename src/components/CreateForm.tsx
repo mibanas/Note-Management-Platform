@@ -6,19 +6,25 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { NoteInputSchemaType, noteInputSchema } from '@/schemas/note.schema';
 import { Textarea } from './ui/textarea';
 import ColorPalette from './ColorSelect';
+import { useDispatch } from 'react-redux';
+import { createNote } from '@/app/Redux/slices/notesSlice';
+import { useRouter } from 'next/navigation';
 
 export default function CreateForm() {
+    const dispatch = useDispatch();
+    const router = useRouter();
     const formHandler = useForm<NoteInputSchemaType>({
         resolver: zodResolver(noteInputSchema),
     });
-    const createNote = (values: NoteInputSchemaType) => {
-        console.log('🚀 ~ createNote ~ values:', values);
-        // add note
+    const addNote = (noteInput: NoteInputSchemaType) => {
+        //@ts-ignore
+        dispatch(createNote({ ...noteInput, isArchived: false }));
+        router.push('/');
     };
     return (
         <Form {...formHandler}>
             <form
-                onSubmit={formHandler.handleSubmit(createNote)}
+                onSubmit={formHandler.handleSubmit(addNote)}
                 className='space-y-8 w-[50vw] shadow-xl p-8 rounded-md border-2'
             >
                 <h1 className='text-xl'>Create note</h1>
@@ -55,7 +61,12 @@ export default function CreateForm() {
                         </FormItem>
                     )}
                 />
-                <Button type='submit'>submit</Button>
+                <Button
+                    type='submit'
+                    disabled={formHandler.formState.isLoading}
+                >
+                    submit
+                </Button>
             </form>
         </Form>
     );
