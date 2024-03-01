@@ -14,22 +14,24 @@ import {
 import { Button } from './ui/button';
 import { FaPalette } from 'react-icons/fa';
 import { cn } from '@/lib/utils';
+import { getColors } from '@/app/Redux/slices/colorSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@/app/Redux/store';
+import { filterNotesByColor } from '@/app/Redux/slices/notesSlice';
 
 export default function FilterByColor() {
+    const dispatch = useDispatch();
+    const { colors } = useSelector((state: RootState) => state.colors);
     const [selectedColor, setSelectedColor] = useState<string | undefined>(
         undefined
     );
-    // fetch colors
-    const colors = [
-        { id: '1', hex: '#FBCE60' },
-        { id: '2', hex: '#090909' },
-        { id: '3', hex: '#EF5350' },
-        { id: '4', hex: '#1F1F53' },
-    ];
+
     useEffect(() => {
-        // filter notes based on selected color
-        // take care of case undefined
-        console.log('🚀 ~ FilterByColor ~ selectedColor:', selectedColor);
+        //@ts-ignore
+        dispatch(getColors());
+    }, []);
+    useEffect(() => {
+        dispatch(filterNotesByColor(selectedColor));
     }, [selectedColor]);
     return (
         <DropdownMenu>
@@ -46,11 +48,11 @@ export default function FilterByColor() {
                     value={selectedColor}
                     onValueChange={setSelectedColor}
                 >
-                    {colors.length > 0 ? (
-                        colors.map((color) => (
+                    {colors?.length > 0 ? (
+                        colors?.map((color) => (
                             <DropdownMenuRadioItem
                                 value={color.hex}
-                                key={color.id}
+                                key={color._id}
                             >
                                 <div
                                     className={cn(
