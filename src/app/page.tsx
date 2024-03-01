@@ -25,7 +25,7 @@ export default function Home() {
             content: lorem.generateParagraphs(2),
             createdAt: new Date().toLocaleDateString(),
             color: { _id: '1', hex: '#FBCE60' },
-            isArchived: false,
+            isArchived: true,
         },
         {
             _id: '2',
@@ -241,22 +241,24 @@ export default function Home() {
 
     return (
         <main className='overflow-auto'>
-            <div className='grid grid-cols-4 gap-4 p-8 overflow-auto'>
-                {notes.length > 0 ? (
-                    notes.map((note: Note) => (
-                        <NoteCard
-                            {...note}
-                            key={note._id}
-                        />
-                    ))
-                ) : (
-                    <div className='flex items-start justify-center h-screen bg-neutral-100'>
-                        <p className='mt-8 text-2xl font-bold'>
-                            Start adding notes!
-                        </p>
-                    </div>
-                )}
-            </div>
+            {notes.length > 0 ? (
+                <div className='grid grid-cols-4 gap-4 p-8 overflow-auto'>
+                    {notes
+                        .filter((note: Note) => !note.isArchived)
+                        .map((note: Note) => (
+                            <NoteCard
+                                {...note}
+                                key={note._id}
+                            />
+                        ))}
+                </div>
+            ) : (
+                <div className='flex items-start justify-center h-screen bg-neutral-100'>
+                    <p className='mt-8 text-2xl font-bold'>
+                        Start adding notes!
+                    </p>
+                </div>
+            )}
         </main>
     );
 }
