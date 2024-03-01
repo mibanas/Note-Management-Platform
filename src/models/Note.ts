@@ -24,10 +24,10 @@ class NoteClass {
     @prop({ ref: () => ColorClass })
     public color?: Ref<ColorClass> | DocumentType<typeof ColorClass>;
 
-    @prop()
+    @prop({ default: false })
     public isArchived: boolean;
 }
 
 // model
-const Note = mongoose.models.NoteClass || getModelForClass(NoteClass);
-export { Note, NoteClass };
+const NoteModel = mongoose.models.NoteClass || getModelForClass(NoteClass);
+export { NoteModel, NoteClass };
