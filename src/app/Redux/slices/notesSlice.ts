@@ -128,28 +128,28 @@ const notesSlice = createSlice({
             state.status = false;
         });
         builder.addCase(getNotes.fulfilled, (state, action) => {
-            state.notes = action.payload.notes;
+            state.notes = action.payload?.notes;
         });
         builder.addCase(getNotes.rejected, (state, action) => {
             state.status = false;
         });
         // create note
         builder.addCase(createNote.fulfilled, (state, action) => {
-            state.notes.push(action.payload.createdNote);
+            state.notes.push(action.payload?.createdNote);
         });
         // update note
         builder.addCase(updateNote.fulfilled, (state, action) => {
             const updatedNoteIndex = state.notes.findIndex(
-                (note) => note._id === action.payload.updatedNote._id
+                (note) => note._id === action.payload?.updatedNote._id
             );
             if (updatedNoteIndex !== -1) {
-                state.notes[updatedNoteIndex] = action.payload.updatedNote;
+                state.notes[updatedNoteIndex] = action.payload?.updatedNote;
             }
         });
         //delete note (archive)
         builder.addCase(deleteNote.fulfilled, (state, action) => {
             const deletedNoteIndex = state.notes.findIndex(
-                (note) => note._id === action.payload.deletedNote.id
+                (note) => note._id === action.payload?.deletedNote.id
             );
             if (deletedNoteIndex !== -1) {
                 state.notes[deletedNoteIndex].isArchived = true;
@@ -159,7 +159,7 @@ const notesSlice = createSlice({
         builder.addCase(restoreNote.fulfilled, (state, action) => {
             console.log('🚀 ~ builder.addCase ~ action:', action);
             const restoredNoteIndex = state.notes.findIndex(
-                (note) => note._id === action.payload.restoredNote.id
+                (note) => note._id === action.payload?.restoredNote.id
             );
             if (restoredNoteIndex !== -1) {
                 state.notes[restoredNoteIndex].isArchived = false;

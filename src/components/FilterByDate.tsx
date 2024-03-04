@@ -11,7 +11,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from '@/components/ui/popover';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Separator } from './ui/separator';
 import { useDispatch } from 'react-redux';
 import { filterNotesByDate } from '@/app/Redux/slices/notesSlice';
@@ -45,6 +45,16 @@ export function FilterByDate({
         );
         setDate({ from: undefined, to: undefined });
         setIsOpen(false);
+    }
+    const [hydrated, setHydrated] = useState(false);
+    useEffect(() => {
+        // This forces a rerender, so the date is rendered
+        // the second time but not the first
+        setHydrated(true);
+    }, []);
+    if (!hydrated) {
+        // Returns null on first render, so the client and server match
+        return null;
     }
     return (
         <div className={cn('grid gap-2', className)}>
