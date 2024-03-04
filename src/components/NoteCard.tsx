@@ -22,8 +22,8 @@ export default function NoteCard({
         <div>
             <Card
                 style={{
-                    backgroundColor: color.hex,
-                    color: color.hex ? contrastRatio(color.hex) : '',
+                    backgroundColor: color?.hex,
+                    color: color?.hex ? contrastRatio(color?.hex) : '',
                 }}
                 className={cn('p-2 pb-6 relative', isArchived && ' border-2')}
             >
@@ -39,7 +39,7 @@ export default function NoteCard({
                             <FilePenLine
                                 size={20}
                                 color={
-                                    color.hex ? contrastRatio(color.hex) : ''
+                                    color?.hex ? contrastRatio(color?.hex) : ''
                                 }
                                 className='cursor-pointer transition-all duration-500 hover:rotate-6 hover:scale-125'
                             />

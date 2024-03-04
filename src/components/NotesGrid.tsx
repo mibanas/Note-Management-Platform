@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { getNotes } from '@/app/Redux/slices/notesSlice';
 import { isSameDay, isWithinInterval } from 'date-fns';
+import { getColors } from '@/app/Redux/slices/colorSlice';
 
 export default function NotesGrid({
     archivedNotes = false,
@@ -26,7 +27,7 @@ export default function NotesGrid({
         .filter((note) => note.isArchived == archivedNotes)
         .filter((note) =>
             filterNotesByColor
-                ? note.color.hex.includes(filterNotesByColor)
+                ? note.color?.hex.includes(filterNotesByColor)
                 : true
         )
         .filter((note) =>
@@ -53,12 +54,14 @@ export default function NotesGrid({
 
     useEffect(() => {
         //@ts-ignore
+        dispatch(getColors());
+        //@ts-ignore
         dispatch(getNotes());
     }, [dispatch]);
     return (
         <>
             {filteredNotes?.length > 0 ? (
-                <div className='grid grid-cols-4 gap-4 p-8 overflow-auto'>
+                <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-8 overflow-auto'>
                     {filteredNotes.map((note: Note) => (
                         <NoteCard
                             key={note._id}

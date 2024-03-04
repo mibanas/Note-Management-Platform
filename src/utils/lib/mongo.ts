@@ -17,10 +17,10 @@ export async function connectDb() {
         cashedConnection = await connect(process.env.MONGODB_URI as string);
         console.log(
             '🚀 Connection established database :',
-            cashedConnection.connection.db.databaseName
+            cashedConnection?.connection?.db?.databaseName
         );
-    } catch (error : any) {
-        console.log("🚀 ~ connectDb ~ error:", error.message)
+    } catch (error: any) {
+        console.log('🚀 ~ connectDb ~ error:', error.message);
         console.log('❌ Connection to database failed');
     }
     return cashedConnection;
