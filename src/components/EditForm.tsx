@@ -23,7 +23,7 @@ export default function EditForm({ id }: { id: string }) {
         resolver: zodResolver(noteInputSchema),
         defaultValues: {
             content: note?.content,
-            color: note?.color._id,
+            color: note?.color?._id,
         },
     });
 

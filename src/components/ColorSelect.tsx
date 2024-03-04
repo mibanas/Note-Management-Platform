@@ -16,6 +16,7 @@ export default function ColorSelect({
     setSelectedColor,
 }: ColorSelectProps) {
     const { colors } = useSelector((state: RootState) => state.colors);
+    console.log('🚀 ~ colors:', colors);
 
     return (
         <Select
@@ -29,14 +30,14 @@ export default function ColorSelect({
                 {colors.length > 0 ? (
                     colors.map((color) => (
                         <SelectItem
-                            value={color._id}
-                            key={color._id}
+                            value={color?._id}
+                            key={color?._id}
                         >
                             <div
                                 className={cn(
                                     'inline-flex h-5 w-[120px] items-center justify-center rounded-md   '
                                 )}
-                                style={{ backgroundColor: color.hex }}
+                                style={{ backgroundColor: color?.hex }}
                             ></div>
                         </SelectItem>
                     ))

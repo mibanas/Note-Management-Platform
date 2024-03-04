@@ -27,10 +27,6 @@ export default function FilterByColor() {
     );
 
     useEffect(() => {
-        //@ts-ignore
-        dispatch(getColors());
-    }, []);
-    useEffect(() => {
         dispatch(filterNotesByColor(selectedColor));
     }, [selectedColor]);
     return (
@@ -51,14 +47,14 @@ export default function FilterByColor() {
                     {colors?.length > 0 ? (
                         colors?.map((color) => (
                             <DropdownMenuRadioItem
-                                value={color.hex}
-                                key={color._id}
+                                value={color?.hex}
+                                key={color?._id}
                             >
                                 <div
                                     className={cn(
                                         'inline-flex h-5 w-5 items-center justify-center rounded-full a text-xs text-gray-600 bg-gray-700'
                                     )}
-                                    style={{ backgroundColor: color.hex }}
+                                    style={{ backgroundColor: color?.hex }}
                                 ></div>
                             </DropdownMenuRadioItem>
                         ))
