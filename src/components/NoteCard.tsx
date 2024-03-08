@@ -38,9 +38,12 @@ export default function NoteCard({
                         <Link href={`/note/${_id}`}>
                             <FilePenLine
                                 size={20}
-                                color={
-                                    color?.hex ? contrastRatio(color?.hex) : ''
-                                }
+                                style={{
+                                    backgroundColor: color?.hex,
+                                    color: color?.hex
+                                        ? contrastRatio(color?.hex)
+                                        : '',
+                                }}
                                 className='cursor-pointer transition-all duration-500 hover:rotate-6 hover:scale-125'
                             />
                         </Link>

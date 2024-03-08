@@ -25,7 +25,7 @@ export default function ColorPalette() {
         e.preventDefault();
 
         //@ts-ignore
-        dispatch(createColor(color?));
+        dispatch(createColor(color?.hex));
         setIsPaletteOpen(false);
     };
 
