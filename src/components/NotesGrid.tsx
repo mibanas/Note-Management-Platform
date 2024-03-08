@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { getNotes } from '@/app/Redux/slices/notesSlice';
 import { isSameDay, isWithinInterval } from 'date-fns';
 import { getColors } from '@/app/Redux/slices/colorSlice';
+import { Loader2 } from 'lucide-react';
 
 export default function NotesGrid({
     archivedNotes = false,
@@ -21,6 +22,7 @@ export default function NotesGrid({
         filterNotesByColor,
         filterNotesByContent,
         filterNotesByDate,
+        status,
     } = useSelector((state: RootState) => state.notes);
 
     const filteredNotes = notes
@@ -60,7 +62,14 @@ export default function NotesGrid({
     }, [dispatch]);
     return (
         <>
-            {filteredNotes?.length > 0 ? (
+            {status ? (
+                <div className='flex items-center justify-center h-screen bg-neutral-100'>
+                    <Loader2
+                        className='animate-spin'
+                        size={90}
+                    />
+                </div>
+            ) : filteredNotes?.length > 0 ? (
                 <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-8 overflow-auto'>
                     {filteredNotes.map((note: Note) => (
                         <NoteCard
