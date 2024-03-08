@@ -13,7 +13,7 @@ interface NotesState {
 }
 
 const initialState: NotesState = {
-    status: false,
+    status: true,
     notes: [],
     filterNotesByColor: '',
     filterNotesByDate: {},
@@ -125,10 +125,11 @@ const notesSlice = createSlice({
     extraReducers: (builder) => {
         // get notes
         builder.addCase(getNotes.pending, (state, action) => {
-            state.status = false;
+            state.status = true;
         });
         builder.addCase(getNotes.fulfilled, (state, action) => {
             state.notes = action.payload?.notes;
+            state.status = false;
         });
         builder.addCase(getNotes.rejected, (state, action) => {
             state.status = false;
